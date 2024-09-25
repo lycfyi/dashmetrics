@@ -1,6 +1,7 @@
 # Next.js build output
 .next
 out
+data/*
 
 # Node modules
 node_modules
