@@ -42,7 +42,7 @@ function ModeToggle() {
 
 export function Header() {
   return (
-    <header className="bg-background border-b">
+    <header className="bg-background border-b border-b-zinc-600">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
@@ -52,7 +52,12 @@ export function Header() {
                 alt="Dashmetrics Logo"
                 className="h-8 w-8 mr-2"
               />
-              <span className="font-bold text-xl">Dashmetrics</span>
+              <div className="flex flex-col">
+                <span className="font-bold text-xl">Dashmetrics</span>
+                <span className="text-xs text-muted-foreground">
+                  Open-source Alternative to ChartMogul
+                </span>
+              </div>
             </Link>
           </div>
           <nav className="flex items-center space-x-4">

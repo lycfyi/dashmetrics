@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { FileUpload } from "@/components/fileupload";
 import { MRRChart } from "@/components/charts/MRR";
+import { ARRChart } from "@/components/charts/ARR";
 import type { ParsedData } from "@/components/fileupload";
 
 export default function Home() {
@@ -23,6 +24,7 @@ export default function Home() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
         {parsedData.length > 0 && <MRRChart data={parsedData} />}
+        {parsedData.length > 0 && <ARRChart data={parsedData} />}
       </div>
 
       <footer className="mt-16 flex gap-6 flex-wrap items-center justify-center">
