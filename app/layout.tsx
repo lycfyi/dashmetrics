@@ -16,7 +16,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Dashmetrics",
-  description: "Create a Stripe dashboard using Stripe CSV files",
+  description: "Create a stunning dashboard using Stripe CSV files",
 };
 
 export default function RootLayout({
