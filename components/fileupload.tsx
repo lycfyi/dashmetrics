@@ -134,11 +134,19 @@ export function FileUpload({ onDataParsed }: FileUploadProps) {
 
   return (
     <div>
-      <label htmlFor="file-upload" className="cursor-pointer">
-        <Button asChild>
-          <span>Choose Files</span>
-        </Button>
-      </label>
+      <div className="flex items-center gap-2">
+        <label htmlFor="file-upload" className="cursor-pointer">
+          <Button asChild>
+            <span>Choose Files</span>
+          </Button>
+        </label>
+        <a
+          href="/docs/how-to-prepare-files"
+          className="text-sm text-gray-500 hover:underline"
+        >
+          How to get the csv files?
+        </a>
+      </div>
       <input
         id="file-upload"
         type="file"

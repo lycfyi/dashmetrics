@@ -20,7 +20,7 @@ Dashmetrics is a Next.js project that creates a Stripe dashboard using Stripe CS
 1. Clone the repository:
 
    ```
-   git clone https://github.com/yourusername/dashmetrics.git
+   git clone https://github.com/lycfyi/dashmetrics.git
    cd dashmetrics
    ```
 
@@ -66,6 +66,18 @@ You can also use the Vercel Deploy Button for one-click deployment:
 
 Replace `yourusername` with your actual GitHub username in the URL above.
 
+## Contributing
+
+We welcome contributions to Dashmetrics! Please see our [Contributing Guide](CONTRIBUTING.md) for more details on how to get started.
+
+## Code of Conduct
+
+We are committed to fostering an open and welcoming environment. Please read our [Code of Conduct](CODE_OF_CONDUCT.md) for details on our code of conduct and how to report unacceptable behavior.
+
+## Security
+
+For information about our security policies and how to report security issues, please see our [Security Policy](SECURITY.md).
+
 ## License
 
-This project is licensed under the GNU Affero General Public License v3.0. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the GNU Affero General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
