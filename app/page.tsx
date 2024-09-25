@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { FileUpload } from "@/components/fileupload";
 import { ExampleChart } from "@/components/ExampleChart";
 
 export default function Home() {
@@ -8,15 +8,10 @@ export default function Home() {
         <p className="text-l mb-8">
           Upload Stripe CSV files to see the dashboard.
         </p>
-        <Button size="default" className="rounded-md">
-          Upload Files
-        </Button>
+        <FileUpload />
       </section>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <ExampleChart />
-        <ExampleChart />
-        <ExampleChart />
         <ExampleChart />
         <ExampleChart />
         <ExampleChart />
