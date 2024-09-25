@@ -141,7 +141,7 @@ export function FileUpload({ onDataParsed }: FileUploadProps) {
           </Button>
         </label>
         <a
-          href="https://github.com/lycfyi/dashmetrics/blob/feature_mrr_arr_chart/docs/how-to-prepare-files.md"
+          href="https://github.com/lycfyi/dashmetrics/blob/main/docs/how-to-prepare-files.md"
           className="text-sm text-gray-500 hover:underline"
           target="_blank"
           rel="noopener noreferrer"
