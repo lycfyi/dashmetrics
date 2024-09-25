@@ -2,7 +2,7 @@
 .next
 out
 data/*
-
+!data/.keep
 # Node modules
 node_modules
 
