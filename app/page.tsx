@@ -1,5 +1,6 @@
 import { FileUpload } from "@/components/fileupload";
-import { ExampleChart } from "@/components/ExampleChart";
+import { ExampleChart } from "@/components/charts/ExampleChart";
+import { MRRChart } from "@/components/charts/MRR";
 
 export default function Home() {
   return (
@@ -11,9 +12,8 @@ export default function Home() {
         <FileUpload />
       </section>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <ExampleChart />
-        <ExampleChart />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+        <MRRChart />
         <ExampleChart />
         <div className="col-span-1 md:col-span-2 lg:col-span-3">
           <ExampleChart />

@@ -46,8 +46,13 @@ export function Header() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
-            <Link href="/" className="font-bold text-xl">
-              Dashmetrics
+            <Link href="/" className="flex items-center">
+              <img
+                src="/logo.png"
+                alt="Dashmetrics Logo"
+                className="h-8 w-8 mr-2"
+              />
+              <span className="font-bold text-xl">Dashmetrics</span>
             </Link>
           </div>
           <nav className="flex items-center space-x-4">

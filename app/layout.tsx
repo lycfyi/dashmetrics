@@ -4,15 +4,19 @@ import { cn } from "@/lib/utils";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ThemeProvider } from "@/components/theme-provider";
+import type { Metadata } from "next";
 
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Dashmetrics",
   description: "Create a stunning dashboard using Stripe CSV files",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default function RootLayout({
