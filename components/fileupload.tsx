@@ -5,17 +5,22 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { parse } from "csv-parse/sync";
 
-interface ParsedData {
+export interface ParsedData {
   createdDate: Date;
   convertedAmount: number;
+  convertedAmountRefunded: number;
   description: string;
   status: string;
   customerEmail: string;
 }
 
-export function FileUpload() {
+interface FileUploadProps {
+  onDataParsed: (data: ParsedData[]) => void;
+}
+
+export function FileUpload({ onDataParsed }: FileUploadProps) {
   const [files, setFiles] = useState<File[]>([]);
-  const [parsedData, setParsedData] = useState<ParsedData[]>([]);
+  const [failedFiles, setFailedFiles] = useState<string[]>([]);
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -25,16 +30,22 @@ export function FileUpload() {
       setFiles(selectedFiles);
 
       const allParsedData: ParsedData[] = [];
+      const failedFileNames: string[] = [];
 
       for (const file of selectedFiles) {
-        const content = await readFileContent(file);
-        const parsedFileData = parseCSV(content);
-        allParsedData.push(...parsedFileData);
+        try {
+          const content = await readFileContent(file);
+          const parsedFileData = parseCSV(content, file.name);
+          allParsedData.push(...parsedFileData);
+        } catch (error) {
+          console.error(`Failed to process file: ${file.name}`, error);
+          failedFileNames.push(file.name);
+        }
       }
 
-      setParsedData(allParsedData);
+      setFailedFiles(failedFileNames);
+      onDataParsed(allParsedData);
       console.log("Parsed data:", allParsedData);
-      // Here you can perform further processing or send the data to a parent component
     }
   };
 
@@ -47,45 +58,78 @@ export function FileUpload() {
     });
   };
 
-  const parseCSV = (content: string): ParsedData[] => {
+  const parseCSV = (content: string, fileName: string): ParsedData[] => {
     const records = parse(content, {
       columns: true,
       skip_empty_lines: true,
     });
 
-    return records.map((record: Record<string, string>, index: number) => {
-      const row = index + 2; // Adding 2 because of 0-indexing and header row
+    return records
+      .map((record: Record<string, string>, index: number) => {
+        const row = index + 2; // Adding 2 because of 0-indexing and header row
 
-      const createdDateValue = record["Created date (UTC)"];
-      if (typeof createdDateValue !== "string") {
-        throw new Error(`Invalid 'Created date (UTC)' format in row ${row}`);
-      }
-      const createdDate = new Date(createdDateValue);
-      if (Number.isNaN(createdDate.getTime())) {
-        throw new Error(
-          `Invalid date format in 'Created date (UTC)' in row ${row}`
-        );
-      }
+        try {
+          const createdDateValue = record["Created date (UTC)"];
+          if (typeof createdDateValue !== "string") {
+            throw new Error(
+              `Invalid 'Created date (UTC)' format in row ${row}`
+            );
+          }
+          const createdDate = new Date(createdDateValue);
+          if (Number.isNaN(createdDate.getTime())) {
+            throw new Error(
+              `Invalid date format in 'Created date (UTC)' in row ${row} ${fileName}`
+            );
+          }
 
-      const convertedAmountValue = record["Converted Amount"];
-      if (typeof convertedAmountValue !== "string") {
-        throw new Error(`Invalid 'Converted Amount' format in row ${row}`);
-      }
-      const convertedAmount = Number.parseFloat(convertedAmountValue);
-      if (Number.isNaN(convertedAmount)) {
-        throw new Error(
-          `Invalid number format in 'Converted Amount' in row ${row}`
-        );
-      }
+          const convertedAmount = parseFloatField(
+            record["Converted Amount"],
+            "Converted Amount",
+            row,
+            fileName
+          );
+          const convertedAmountRefunded = parseFloatField(
+            record["Converted Amount Refunded"],
+            "Converted Amount Refunded",
+            row,
+            fileName
+          );
 
-      return {
-        createdDate,
-        convertedAmount,
-        description: String(record.Description),
-        status: String(record.Status),
-        customerEmail: String(record["Customer Email"]),
-      };
-    });
+          return {
+            createdDate,
+            convertedAmount,
+            convertedAmountRefunded,
+            description: String(record.Description),
+            status: String(record.Status),
+            customerEmail: String(record["Customer Email"]),
+          };
+        } catch (error) {
+          console.error(`Error parsing row ${row}:`, error);
+          return null;
+        }
+      })
+      .filter((item: unknown): item is ParsedData => item !== null);
+  };
+
+  const parseFloatField = (
+    value: string,
+    fieldName: string,
+    row: number,
+    fileName: string
+  ): number => {
+    if (typeof value !== "string") {
+      throw new Error(
+        `Invalid '${fieldName}' format in row ${row} ${fileName}`
+      );
+    }
+    const parsedValue = Number.parseFloat(value);
+    if (Number.isNaN(parsedValue)) {
+      console.warn(
+        `Invalid number format in '${fieldName}' in row ${row}. ${fileName} Value: "${value}"`
+      );
+      return 0; // or you can choose to throw an error instead
+    }
+    return parsedValue;
   };
 
   return (
@@ -106,11 +150,11 @@ export function FileUpload() {
       {files.length > 0 && (
         <div className="mt-2">
           <p>{files.length} file(s) selected and processed</p>
-        </div>
-      )}
-      {parsedData.length > 0 && (
-        <div className="mt-4">
-          <p>Processed {parsedData.length} records</p>
+          {failedFiles.length > 0 && (
+            <p className="text-red-500">
+              Failed to process: {failedFiles.join(", ")}
+            </p>
+          )}
         </div>
       )}
     </div>
